@@ -1,17 +1,17 @@
 <template>
   <div>
     <b-container>
-      <Vitrine />
+      <Main />
     </b-container>
   </div>
 </template>
 
 <script>
-  import Vitrine from './components/Vitrine.vue';
+  import Main from './components/Main.vue';
   export default {
     name: 'App',
     components: {
-      Vitrine
+      Main
     }
   }
 </script>

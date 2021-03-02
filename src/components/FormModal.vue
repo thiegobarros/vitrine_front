@@ -52,8 +52,10 @@
                         url: 'author',
                         method: 'put'
                     };
+                    this.makeToast('success');
                 } catch (e) {
-                    console.log(e)
+                    console.log(e);
+                    this.makeToast('error');
                 }
                 
             },
@@ -64,8 +66,10 @@
                         url: `author/${id}`
                     });
                     this.$emit('success');
+                    this.makeToast('success');
                 } catch(e) {
-                    console.log(e)
+                    console.log(e);
+                    this.makeToast('error');
                 }
             },
             async submit() {
@@ -77,10 +81,37 @@
                     });
                     this.$emit('success');
                     this.$nextTick(()=> this.$bvModal.hide('form-modal'));
+                    this.makeToast('success');
                 }catch(e){
-                    console.log(e)
+                    // console.log(e);
+                    this.makeToast('error');
                 }
             },
+            makeToast(type) {
+                switch (type) {
+                    case 'error':
+                        this.$bvToast.toast('There was an error', {
+                            title: 'Error',
+                            variant: 'danger',
+                            solid: true
+                        });
+                        break;
+                    case 'success':
+                        this.$bvToast.toast('Action successfully performed', {
+                            title: 'Success',
+                            variant: 'success',
+                            solid: true
+                        });
+                        break;
+                    default:
+                        this.$bvToast.toast('Unexpected error', {
+                            title: 'Error',
+                            variant: 'danger',
+                            solid: true
+                        });
+                        break;
+                }
+            }
         }
     }
 </script>
