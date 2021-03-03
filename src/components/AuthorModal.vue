@@ -97,11 +97,34 @@
                 }
                 return this.submit();
             },
+            removeConfirm(author_id) {
+                const h = this.$createElement
+                const id = `my-toast-${this.count++}`
+                const $closeButton = h(
+                    'b-button',
+                    {
+                        on: { click: () => {
+                                this.remove(author_id)
+                                this.$bvToast.hide(id)
+                            }
+                        }
+                    },
+                    'OK'
+                )
+
+                this.$bvToast.toast([$closeButton], {
+                    id: id,
+                    title: 'Will linked books be deleted, continue?',
+                    toaster: 'b-toaster-top-center',
+                    variant: 'warning'
+                })
+            },
             makeToast(type, txt=null) {
                 switch (type) {
                     case 'error':
                         this.$bvToast.toast(txt === null ? 'There was an error' : txt, {
                             title: 'Error',
+                            toaster: 'b-toaster-top-center',
                             variant: 'danger',
                             solid: true
                         });
@@ -109,6 +132,7 @@
                     case 'success':
                         this.$bvToast.toast(txt === null ? 'Action successfully performed' : txt, {
                             title: 'Success',
+                            toaster: 'b-toaster-top-center',
                             variant: 'success',
                             solid: true
                         });
@@ -116,6 +140,7 @@
                     default:
                         this.$bvToast.toast('Unexpected error', {
                             title: 'Error',
+                            toaster: 'b-toaster-top-center',
                             variant: 'danger',
                             solid: true
                         });

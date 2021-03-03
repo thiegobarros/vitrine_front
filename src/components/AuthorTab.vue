@@ -13,7 +13,7 @@
             <template v-slot:cell(id)="data">
                 <b-dropdown text='Actions'>
                     <b-dropdown-item variant="primary" @click="$refs.author_modal.edit(data.value)"> <b-icon icon="pencil"></b-icon> Edit</b-dropdown-item>
-                    <b-dropdown-item variant="danger" @click="$refs.author_modal.remove(data.value)"> <b-icon icon="x-circle"></b-icon> Remove</b-dropdown-item>
+                    <b-dropdown-item variant="danger" @click="$refs.author_modal.removeConfirm(data.value)"> <b-icon icon="x-circle"></b-icon> Remove</b-dropdown-item>
                 </b-dropdown>
             </template>
         </b-table>
@@ -23,7 +23,7 @@
             :per-page="perPage"
             align="center"
         ></b-pagination>
-        <author-modal ref="author_modal" @success="getTable"/>
+        <author-modal ref="author_modal" @success="getData"/>
     </div>
 </template>
 
@@ -48,10 +48,10 @@ export default {
         }
     },
     created() {
-        this.getTable();
+        this.getData();
     },
     methods:{
-        async getTable(){
+        async getData(){
             try {
                 const {data} = await axios.get('author');
                 this.authors = data;
@@ -60,6 +60,7 @@ export default {
                 // console.log(e);
                 this.$bvToast.toast('Failed to get data', {
                     title: 'Error',
+                    toaster: 'b-toaster-top-center',
                     variant: 'danger',
                     solid: true
                 });

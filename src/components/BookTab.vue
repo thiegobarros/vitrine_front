@@ -23,7 +23,7 @@
             :per-page="perPage"
             align="center"
         ></b-pagination>
-        <book-modal ref="book_modal" @success="getTable"/>
+        <book-modal ref="book_modal" @success="getData"/>
     </div>
 </template>
 
@@ -49,10 +49,10 @@ export default {
         }
     },
     created() {
-        this.getTable();
+        this.getData();
     },
     methods:{
-        async getTable(){
+        async getData(){
             try {
                 const {data} = await axios.get('book');
                 this.books = data;
@@ -61,6 +61,7 @@ export default {
                 // console.log(e);
                 this.$bvToast.toast('Failed to get data', {
                     title: 'Error',
+                    toaster: 'b-toaster-top-center',
                     variant: 'danger',
                     solid: true
                 });

@@ -58,7 +58,7 @@ export default {
     data() {
         return {
             books: [],
-            search: null,
+            search: '',
             currentPage: 1,
             perPage: 6,
             total: 0,
@@ -66,23 +66,24 @@ export default {
         }
     },
     mounted() {
-        this.getBooks();
+        this.getData();
     },
     watch: {
         search: function(value) {
-            (value.length == 0) ? this.getBooks() : this.searchBook(value);
+            this.getData();
         },
         currentPage: function(value) {
-            this.getBooks();
+            this.getData();
         }
     },
     methods: {
-        async getBooks() {
+        async getData() {
             try {
                 const {data} = await axios.post('book/vitrine', {
                     currentPage: this.currentPage,
                     perPage: this.perPage,
                     orderBy: this.orderBy,
+                    param: this.search
                 });
                 this.books = data.content;
                 this.total = data.totalElements;
@@ -91,6 +92,7 @@ export default {
                 // console.log(e);
                 this.$bvToast.toast('Failed to get data', {
                     title: 'Error',
+                    toaster: 'b-toaster-top-center',
                     variant: 'danger',
                     solid: true
                 });
@@ -98,26 +100,13 @@ export default {
         },
         async setOrderBy() {
             this.orderBy = this.orderBy == 'asc' ? 'desc' : 'asc';
-            this.getBooks();
-        },
-        async searchBook(param) {
-            try {
-                const {data} = await axios.get(`book/search/${param}`);
-                this.books = data;
-            } catch (e) {
-                // console.log(e);
-                this.$bvToast.toast('Failed to get data', {
-                    title: 'Error',
-                    variant: 'danger',
-                    solid: true
-                });
-            }
+            this.getData();
         },
         reset() {
             this.currentPage = 1;
             this.orderBy = 'asc';
-            this.search = null,
-            this.getBooks();
+            this.search = '',
+            this.getData();
         }
     }
 }

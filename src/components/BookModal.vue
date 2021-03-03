@@ -44,15 +44,13 @@
                 options: []
             }
         },
-        mounted() {
-            this.getAuthors();
-        },
         methods: {
             create() {
                 this.action = {
                     url: 'book',
                     method: 'post'
                 };
+                this.getAuthors();
                 this.$bvModal.show('book-modal');
             },
             async getAuthors() {
@@ -133,6 +131,7 @@
                     case 'error':
                         this.$bvToast.toast(txt === null ? 'There was an error' : txt, {
                             title: 'Error',
+                            toaster: 'b-toaster-top-center',
                             variant: 'danger',
                             solid: true
                         });
@@ -140,6 +139,7 @@
                     case 'success':
                         this.$bvToast.toast(txt === null ? 'Action successfully performed' : txt, {
                             title: 'Success',
+                            toaster: 'b-toaster-top-center',
                             variant: 'success',
                             solid: true
                         });
@@ -147,6 +147,7 @@
                     default:
                         this.$bvToast.toast('Unexpected error', {
                             title: 'Error',
+                            toaster: 'b-toaster-top-center',
                             variant: 'danger',
                             solid: true
                         });
