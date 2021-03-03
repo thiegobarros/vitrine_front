@@ -26,7 +26,7 @@
 
 <script>
     export default {
-        name: 'FormModal',
+        name: 'AuthorModal',
         data() {
             return {
                 form: {},
@@ -52,9 +52,8 @@
                         url: 'author',
                         method: 'put'
                     };
-                    this.makeToast('success');
                 } catch (e) {
-                    console.log(e);
+                    // console.log(e);
                     this.makeToast('error');
                 }
                 
@@ -68,7 +67,7 @@
                     this.$emit('success');
                     this.makeToast('success');
                 } catch(e) {
-                    console.log(e);
+                    // console.log(e);
                     this.makeToast('error');
                 }
             },

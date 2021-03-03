@@ -21,7 +21,12 @@
                 </b-form-group>
 
                 <b-form-group id="input-group-2" label="Author:" label-for="input-2">
-                    <b-form-select v-model="form.authorId" :options="options">{{ selected }}</b-form-select>
+                    <b-form-select
+                    id="input-2"
+                    v-model="form.authorId"
+                    required
+                    :options="options"
+                    >{{ selected }}</b-form-select>
                 </b-form-group>
             </b-form>
         </b-modal>
@@ -65,7 +70,7 @@
                     });
                     // this.selected = '1';
                 } catch (e) {
-                    console.log(e);
+                    // console.log(e);
                 }
             },
             async edit(id) {
@@ -78,9 +83,8 @@
                         url: 'book',
                         method: 'put'
                     };
-                    this.makeToast('success');
                 } catch (e) {
-                    console.log(e);
+                    // console.log(e);
                     this.makeToast('error');
                 }
                 
@@ -94,7 +98,7 @@
                     this.$emit('success');
                     this.makeToast('success');
                 } catch(e) {
-                    console.log(e);
+                    // console.log(e);
                     this.makeToast('error');
                 }
             },
