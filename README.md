@@ -1,4 +1,5 @@
 # Vitrine Front-End
+Descrição: É utilizado o vuejs com o bootstrap vue e seu componentes de estilização, axios para requisição e trabalho de forma assíncrona.
 
 ## Project setup
 ```
@@ -13,11 +14,6 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
 ```
 
 ### Customize configuration
