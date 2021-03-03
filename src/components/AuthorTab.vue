@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-button class="float-right mb-2" variant="primary" @click.prevent="$refs.author_modal.create()"> <b-icon icon="file-earmark-plus"></b-icon> Add</b-button>
-        <b-table striped hover :items="authors" :fields="fields">
+        <b-table striped hover responsive :items="authors" :fields="fields">
             <template v-slot:cell(id)="data">
                 <b-dropdown text='Actions'>
                     <b-dropdown-item variant="primary" @click="$refs.author_modal.edit(data.value)"> <b-icon icon="pencil"></b-icon> Edit</b-dropdown-item>

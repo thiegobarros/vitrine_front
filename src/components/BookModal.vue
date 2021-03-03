@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-modal id="book-modal" title="Book" @ok.prevent="submit" @hidden="form = {}" ok-title="Save" ok-variant="success" ok-only>
+        <b-modal id="book-modal" title="Book" @ok.prevent="validation" @hidden="form = {}" ok-title="Save" ok-variant="success" ok-only>
             <b-form>
                 <b-form-group id="input-group-1" label="Title:" label-for="input-1">
                     <b-form-input
@@ -26,7 +26,7 @@
                     v-model="form.authorId"
                     required
                     :options="options"
-                    >{{ selected }}</b-form-select>
+                    ></b-form-select>
                 </b-form-group>
             </b-form>
         </b-modal>
@@ -41,14 +41,11 @@
                 form: {},
                 action: {},
                 tmpId: '',
-                selected: null,
                 options: []
             }
         },
-        watch:{
-            // options: function (newVal, oldVal) {
-            //     console.log(newVal, oldVal);
-            // }
+        mounted() {
+            this.getAuthors();
         },
         methods: {
             create() {
@@ -57,7 +54,6 @@
                     method: 'post'
                 };
                 this.$bvModal.show('book-modal');
-                this.getAuthors();
             },
             async getAuthors() {
                 try {
@@ -68,7 +64,6 @@
                             "text": obj.firstName
                         })
                     });
-                    // this.selected = '1';
                 } catch (e) {
                     // console.log(e);
                 }
@@ -78,6 +73,7 @@
                 try {
                     const {data} = await axios.get(`book/${id}`);
                     this.form = data;
+                    this.form.authorId = data.author.id;
                     this.$bvModal.show('book-modal');
                     this.action = {
                         url: 'book',
@@ -106,7 +102,7 @@
                 try{
                     const {data} = await axios({
                         method: this.action.method,
-                        url:this.action.method == 'post' ? this.action.url : this.action.url+`/${this.tmpId}`,
+                        url: this.action.method == 'post' ? this.action.url : this.action.url+`/${this.tmpId}`,
                         data: this.form
                     });
                     this.$emit('success');
@@ -116,6 +112,21 @@
                     // console.log(e);
                     this.makeToast('error');
                 }
+            },
+            validation() {
+                if (this.form.title === undefined) {
+                    this.makeToast('error');
+                    return false;
+                }
+                if (this.form.isbn === undefined) {
+                    this.makeToast('error');
+                    return false;
+                }
+                if (this.form.authorId === undefined) {
+                    this.makeToast('error');
+                    return false;
+                }
+                return this.submit();
             },
             makeToast(type) {
                 switch (type) {

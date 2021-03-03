@@ -1,10 +1,10 @@
 <template>
     <div>
-        <b-modal id="form-modal" title="Author" @ok.prevent="submit" @hidden="form = {}" ok-title="Save" ok-variant="success" ok-only>
+        <b-modal id="form-modal" title="Author" @ok.prevent="validation" @hidden="form = {}" ok-title="Save" ok-variant="success" ok-only>
             <b-form>
-                <b-form-group id="input-group-1" label="Fisrt Name:" label-for="input-1">
+                <b-form-group id="input-group-1" label="First Name:" label-for="input-1">
                     <b-form-input
-                    id="input-2"
+                    id="input-1"
                     v-model="form.firstName"
                     required
                     placeholder="first name"
@@ -85,6 +85,17 @@
                     // console.log(e);
                     this.makeToast('error');
                 }
+            },
+            validation() {
+                if (this.form.firstName === undefined) {
+                    this.makeToast('error');
+                    return false;
+                }
+                if (this.form.lastName === undefined) {
+                    this.makeToast('error');
+                    return false;
+                }
+                return this.submit();
             },
             makeToast(type) {
                 switch (type) {
