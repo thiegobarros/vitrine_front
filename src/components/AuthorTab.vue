@@ -57,7 +57,12 @@ export default {
                 this.authors = data;
                 this.total = data.length;
             } catch (e) {
-                console.log(e);
+                // console.log(e);
+                this.$bvToast.toast('Failed to get data', {
+                    title: 'Error',
+                    variant: 'danger',
+                    solid: true
+                });
             }
         }
     }

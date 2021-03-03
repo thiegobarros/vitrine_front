@@ -7,8 +7,10 @@
             placeholder="search"
         />
         <b-button-group class="mb-4">
-            <b-button @click="orderBy('asc')"><b-icon-arrow-down></b-icon-arrow-down></b-button>
-            <b-button @click="orderBy('desc')"><b-icon-arrow-up></b-icon-arrow-up></b-button>
+            <b-button @click="setOrderBy()">
+                <b-icon-arrow-down v-if="orderBy == 'asc'"></b-icon-arrow-down>
+                <b-icon-arrow-up v-if="orderBy == 'desc'"></b-icon-arrow-up>
+            </b-button>
             <b-button @click="reset()" variant="danger" title="Clear"><b-icon-arrow-clockwise></b-icon-arrow-clockwise></b-button>
         </b-button-group>
         <b-card-group>
@@ -58,50 +60,64 @@ export default {
             books: [],
             search: null,
             currentPage: 1,
-            perPage: 3,
-            total: 0
+            perPage: 6,
+            total: 0,
+            orderBy: 'asc'
         }
     },
     mounted() {
-        this.getBooks(1);
+        this.getBooks();
     },
     watch: {
         search: function(value) {
-            if (value.length >= 3) this.searchBook(value);
+            (value.length == 0) ? this.getBooks() : this.searchBook(value);
         },
         currentPage: function(value) {
-            this.getBooks(value);
+            this.getBooks();
         }
     },
     methods: {
-        async getBooks(page) {
+        async getBooks() {
             try {
-                const {data} = await axios.get(`book/pagination/${page}`);
+                const {data} = await axios.post('book/vitrine', {
+                    currentPage: this.currentPage,
+                    perPage: this.perPage,
+                    orderBy: this.orderBy,
+                });
                 this.books = data.content;
                 this.total = data.totalElements;
                 this.perPage = data.size;
             } catch (e) {
-                console.log(e);
+                // console.log(e);
+                this.$bvToast.toast('Failed to get data', {
+                    title: 'Error',
+                    variant: 'danger',
+                    solid: true
+                });
             }
         },
-        async orderBy(val) {
-            try {
-                const {data} = await axios.get(`book/orderBy/${val}`);
-                this.books = data;
-            } catch (e) {
-                console.log(e);
-            }
+        async setOrderBy() {
+            this.orderBy = this.orderBy == 'asc' ? 'desc' : 'asc';
+            this.getBooks();
         },
         async searchBook(param) {
             try {
                 const {data} = await axios.get(`book/search/${param}`);
                 this.books = data;
             } catch (e) {
-                console.log(e);
+                // console.log(e);
+                this.$bvToast.toast('Failed to get data', {
+                    title: 'Error',
+                    variant: 'danger',
+                    solid: true
+                });
             }
         },
         reset() {
-            this.getBooks(1);
+            this.currentPage = 1;
+            this.orderBy = 'asc';
+            this.search = null,
+            this.getBooks();
         }
     }
 }
