@@ -88,26 +88,26 @@
             },
             validation() {
                 if (this.form.firstName === undefined) {
-                    this.makeToast('error');
+                    this.makeToast('error', 'First Name is required');
                     return false;
                 }
                 if (this.form.lastName === undefined) {
-                    this.makeToast('error');
+                    this.makeToast('error', 'Last Name is required');
                     return false;
                 }
                 return this.submit();
             },
-            makeToast(type) {
+            makeToast(type, txt=null) {
                 switch (type) {
                     case 'error':
-                        this.$bvToast.toast('There was an error', {
+                        this.$bvToast.toast(txt === null ? 'There was an error' : txt, {
                             title: 'Error',
                             variant: 'danger',
                             solid: true
                         });
                         break;
                     case 'success':
-                        this.$bvToast.toast('Action successfully performed', {
+                        this.$bvToast.toast(txt === null ? 'Action successfully performed' : txt, {
                             title: 'Success',
                             variant: 'success',
                             solid: true

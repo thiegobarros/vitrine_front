@@ -115,30 +115,30 @@
             },
             validation() {
                 if (this.form.title === undefined) {
-                    this.makeToast('error');
+                    this.makeToast('error', 'Title is required');
                     return false;
                 }
                 if (this.form.isbn === undefined) {
-                    this.makeToast('error');
+                    this.makeToast('error', 'ISBN is required');
                     return false;
                 }
                 if (this.form.authorId === undefined) {
-                    this.makeToast('error');
+                    this.makeToast('error', 'Author is required');
                     return false;
                 }
                 return this.submit();
             },
-            makeToast(type) {
+            makeToast(type, txt=null) {
                 switch (type) {
                     case 'error':
-                        this.$bvToast.toast('There was an error', {
+                        this.$bvToast.toast(txt === null ? 'There was an error' : txt, {
                             title: 'Error',
                             variant: 'danger',
                             solid: true
                         });
                         break;
                     case 'success':
-                        this.$bvToast.toast('Action successfully performed', {
+                        this.$bvToast.toast(txt === null ? 'Action successfully performed' : txt, {
                             title: 'Success',
                             variant: 'success',
                             solid: true
